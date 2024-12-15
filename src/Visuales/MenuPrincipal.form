@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Visuales.MenuPrincipal">
+  <grid id="27dc6" binding="mainBG" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="456"/>
+    </constraints>
+    <properties>
+      <background color="-13816272"/>
+      <doubleBuffered value="true"/>
+      <font/>
+      <preferredSize width="600" height="400"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="e55b6" binding="Jpanel_BannerMenuPpl" layout-manager="GridLayoutManager" row-count="14" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="100" height="-1"/>
+            <preferred-size width="160" height="-1"/>
+            <maximum-size width="160" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-13411237"/>
+          <opaque value="true"/>
+          <requestFocusEnabled value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <vspacer id="9684d">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <component id="d214e" class="javax.swing.JLabel" binding="lbl_nombreNegocio1">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13816272"/>
+              <font size="16" style="1"/>
+              <foreground color="-131077"/>
+              <text value="Variedades"/>
+            </properties>
+          </component>
+          <component id="a42fd" class="javax.swing.JLabel" binding="lbl_nombreNegocio2">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="16" style="1"/>
+              <foreground color="-131077"/>
+              <text value="Tecnológicas"/>
+            </properties>
+          </component>
+          <component id="cec38" class="javax.swing.JButton" binding="bttn_Impresion">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <maximum-size width="140" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12357778"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <doubleBuffered value="true"/>
+              <focusPainted value="false"/>
+              <foreground color="-131077"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
+              <text value="Impresion"/>
+            </properties>
+          </component>
+          <vspacer id="5293b">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <component id="ab052" class="javax.swing.JLabel" binding="lbl_tipoSelec">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <doubleBuffered value="true"/>
+              <font style="3"/>
+              <foreground color="-131077"/>
+              <horizontalAlignment value="10"/>
+              <horizontalTextPosition value="11"/>
+              <opaque value="false"/>
+              <requestFocusEnabled value="true"/>
+              <text value="Seleccione:"/>
+              <verifyInputWhenFocusTarget value="true"/>
+            </properties>
+          </component>
+          <vspacer id="ffa70">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+                <maximum-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <vspacer id="7562">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+                <maximum-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="b19f3" class="javax.swing.JButton" binding="bttn_operador">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <maximum-size width="140" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12357778"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <doubleBuffered value="true"/>
+              <focusPainted value="false"/>
+              <foreground color="-131077"/>
+              <label value="Operador"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
+              <text value="Operador"/>
+            </properties>
+          </component>
+          <vspacer id="545db">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+                <maximum-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="9d861" class="javax.swing.JButton" binding="bttn_cierreDia">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <maximum-size width="140" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12357778"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <doubleBuffered value="true"/>
+              <focusPainted value="false"/>
+              <foreground color="-131077"/>
+              <label value="Cierre día"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
+              <text value="Cierre día"/>
+            </properties>
+          </component>
+          <component id="59251" class="javax.swing.JButton" binding="bttn_salir">
+            <constraints>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <maximum-size width="140" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12357778"/>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="true"/>
+              <doubleBuffered value="true"/>
+              <focusPainted value="false"/>
+              <foreground color="-131077"/>
+              <label value="Salir"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <opaque value="true"/>
+              <text value="Salir"/>
+            </properties>
+          </component>
+          <vspacer id="ead23">
+            <constraints>
+              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="28f3">
+            <constraints>
+              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+                <maximum-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+        </children>
+      </grid>
+      <grid id="e085f" binding="Jpanel_contenido" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>
