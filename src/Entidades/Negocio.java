@@ -14,8 +14,8 @@ public class Negocio {
         servicioImpresora.add(new Impresora("Fotocopia-Color", 100, 200));
         servicioImpresora.add(new Impresora("Laser-BN", 150, 300));
         servicioImpresora.add(new Impresora("Laser-Color", 300, 500));
-        servicioImpresora.add(new Plotter("Entidades.Plotter-Planos", 20, 30));
-        servicioImpresora.add(new Plotter("Entidades.Plotter-Publicidad", 40, 60));
+        servicioImpresora.add(new Plotter("Plotter-Planos", 20, 30));
+        servicioImpresora.add(new Plotter("Plotter-Publicidad", 40, 60));
 
         operadores = new ArrayList<>();
         operadores.add(new Operador("UFF", "MINUTO", 30, 100));

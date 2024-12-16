@@ -1,5 +1,6 @@
 package Visuales;
 
+import Entidades.Negocio;
 import Utils.AccessPanel;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class SubMenuImpresora implements AccessPanel {
     private JButton bttn_plotter;
 
 
-    public SubMenuImpresora(ContenedorSubMenuImp contenedorSubMenuImp) {
+    public SubMenuImpresora(ContenedorSubMenuImp contenedorSubMenuImp, Negocio local) {
         //registroPlotter = panelRaiz;
         bttn_plotter.addActionListener(new ActionListener() {
             @Override

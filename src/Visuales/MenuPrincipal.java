@@ -1,5 +1,7 @@
 package Visuales;
 
+import Entidades.Negocio;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,10 +20,11 @@ public class MenuPrincipal extends JFrame {
     private JPanel Jpanel_contenido;
 
 
-    private final ContenedorSubMenuImp subImpre = new ContenedorSubMenuImp();
+    private final ContenedorSubMenuImp subImpre;
 
 
-    public MenuPrincipal() {
+    public MenuPrincipal(Negocio local) {
+        subImpre = new ContenedorSubMenuImp(local);
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override

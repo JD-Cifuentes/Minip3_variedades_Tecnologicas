@@ -1,5 +1,6 @@
 package Visuales;
 
+import Entidades.Negocio;
 import Utils.AccessPanel;
 
 import javax.swing.*;
@@ -17,10 +18,10 @@ public class ContenedorSubMenuImp {
         PLOTTER_MENU;
     }
 
-    public ContenedorSubMenuImp() {
+    public ContenedorSubMenuImp(Negocio local) {
         this.mapeoSubImprMenu = new HashMap<>();
-        SubMenuImpresora = new SubMenuImpresora(this);
-        registroPlotter = new RegistroPlotter(this);
+        SubMenuImpresora = new SubMenuImpresora(this, local);
+        registroPlotter = new RegistroPlotter(this, local);
         mapeoSubImprMenu.put(OpcionesMenuImpresora.SUB_MENU_IMPR, SubMenuImpresora);
         mapeoSubImprMenu.put(OpcionesMenuImpresora.PLOTTER_MENU, registroPlotter);
 
