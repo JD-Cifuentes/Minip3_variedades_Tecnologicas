@@ -20,17 +20,16 @@ public class RegistroPlotter implements AccessPanel {
     private JTextField txtReadOnly_valorcm2;
     private JLabel lbl_valorcm2;
     private JLabel lbl_alto;
-    private JLabel lbl_cian;
-    private JTextField txtReadOnly_cian;
-    private JTextField txtReadOnly_amarillo;
-    private JTextField txtReadOnly_magenta;
-    private JTextField txtReadOnly_negro;
-    private JLabel lbl_amarillo;
-    private JLabel lbl_negro;
-    private JLabel lbl_magenta;
     private JLabel lbl_ancho;
     private JLabel lbl_nivelTinta;
-    private JPanel JPanel_plotter;
+    private JLabel lbl_cian;
+    private JLabel lbl_amarillo;
+    private JTextField txtReadOnly_cian;
+    private JTextField txtReadOnly_amarillo;
+    private JLabel lbl_magenta;
+    private JTextField txtReadOnly_magenta;
+    private JLabel lbl_negro;
+    private JTextField txtReadOnly_negro;
 
 
     public RegistroPlotter(ContenedorSubMenuImp contenedor) {
