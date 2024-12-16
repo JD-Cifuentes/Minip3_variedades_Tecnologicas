@@ -43,6 +43,43 @@ public class ManejoTintas {
 		return estadoCartuchos;
     }
 
+	public static boolean validarNivelTinta(tipoImpresoraEnBDTxt tImp){
+		String[][] estadoCartuchos = new String[18][3];
+		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
+			String linea;
+			int cnt = 0;
+
+			while( (linea=lineas.readLine()) != null) {
+				String[] datoTinta = linea.split(";");
+				estadoCartuchos[cnt] = datoTinta;
+				cnt++;
+			}
+
+			for(int i = 0; i < estadoCartuchos.length; i++){
+				if(estadoCartuchos[i][0].contains(tImp.toString().toLowerCase())){
+					int indicetitulo = i + 4;
+					while(indicetitulo > i){
+						i++;
+						double porcentajeTinta = Double.parseDouble(estadoCartuchos[i][1]);
+						double pasoDisminucionTinta = Double.parseDouble(estadoCartuchos[i][2]);
+
+						if (porcentajeTinta < pasoDisminucionTinta) {
+							return false;
+						}
+					}
+					break;
+				}
+			}
+
+			return true;
+
+		}catch (IOException e) {
+			System.out.println("Error! :"+e);
+			return false;
+		}
+
+	}
+
     public static void mermarNivelTinta(tipoImpresoraEnBDTxt tImp) {
 		
 		DecimalFormatSymbols simbolos = new DecimalFormatSymbols(Locale.US);

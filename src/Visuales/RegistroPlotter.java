@@ -5,11 +5,8 @@ import Entidades.ServicioImpresora;
 import Utils.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.KeyAdapter;
 import java.util.HashMap;
 
 public class RegistroPlotter implements AccessPanel {
@@ -36,6 +33,10 @@ public class RegistroPlotter implements AccessPanel {
     private JTextField txtReadOnly_magenta;
     private JLabel lbl_negro;
     private JTextField txtReadOnly_negro;
+    private JLabel lbl_valorAPagar;
+    private JTextField textF_valorAPagar;
+    private JTextField txtReadOnly_total;
+    private JLabel lbl_total;
 
     private final HashMap<JLabel, JTextField> mapeoTintas = new HashMap<>(){{
         put(lbl_cian, txtReadOnly_cian);
@@ -43,6 +44,8 @@ public class RegistroPlotter implements AccessPanel {
         put(lbl_magenta, txtReadOnly_magenta);
         put(lbl_negro, txtReadOnly_negro);
     }};
+
+    private int indicePlotterseleccionado;
 
 
     public RegistroPlotter(ContenedorSubMenuImp contenedor, Negocio local) {
@@ -53,6 +56,7 @@ public class RegistroPlotter implements AccessPanel {
         textF_cantidad.addKeyListener(new KeyListenerParaInt(textF_cantidad));
         textF_ancho.addKeyListener(new KeyListenerParaDouble(textF_ancho));
         textF_alto.addKeyListener(new KeyListenerParaDouble(textF_alto));
+        textF_valorAPagar.addKeyListener(new KeyListenerParaDouble(textF_valorAPagar));
 
         radBttn_plano.addActionListener(new ActionListener() {
             @Override
@@ -86,6 +90,28 @@ public class RegistroPlotter implements AccessPanel {
                                 .SUB_MENU_IMPR);
             }
         });
+
+        bttn_registrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if((radBttn_plano.isSelected() || radBttn_publicidad.isSelected())
+                        && ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER)
+                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                        && !(textF_ancho.getText().isEmpty() || textF_ancho.getText().equals("0"))
+                        && !(textF_alto.getText().isEmpty() || textF_alto.getText().equals("0"))
+                        && !(textF_valorAPagar.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                ){
+                    //////todo agregar logica de registro plotter y visualizacion de total venta
+                }else{
+                    JOptionPane.showMessageDialog(null,
+                            "Verifica que todos los campos esten completos",
+                            "Faltan valores",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+
     }
 
     private void mostrarNivelesTinta() {
@@ -108,6 +134,7 @@ public class RegistroPlotter implements AccessPanel {
             if(servIpm.getTipo().contains(tipoPlotter)){
                 valorcm2 = String.format("%.2s", servIpm.getValorParaVenta());
                 txtReadOnly_valorcm2.setText(valorcm2);
+                indicePlotterseleccionado = local.getServicioImpresora().indexOf(servIpm);
                 break;
             }
         }
