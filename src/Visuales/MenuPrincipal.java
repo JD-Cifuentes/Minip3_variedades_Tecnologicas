@@ -45,7 +45,7 @@ public class MenuPrincipal extends JFrame {
     public void cambiarContenido(JPanel panel){
         try{
             panel.setSize(435,400);
-            panel.setMaximumSize(new Dimension(250,400));
+            panel.setMaximumSize(new Dimension(435,400));
             panel.setLocation(0,0);
             this.Jpanel_contenido.removeAll();
             this.Jpanel_contenido.add(panel,BorderLayout.CENTER);

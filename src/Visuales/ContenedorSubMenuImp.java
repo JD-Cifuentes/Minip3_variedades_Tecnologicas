@@ -32,7 +32,7 @@ public class ContenedorSubMenuImp {
         try{
             JPanel panel = mapeoSubImprMenu.get(enumPanel).getPanel();
             panel.setSize(435,400);
-            panel.setMaximumSize(new Dimension(250,400));
+            panel.setMaximumSize(new Dimension(435,400));
             panel.setLocation(0,0);
             panel.setVisible(true);
             Contenedor_BG.removeAll();
