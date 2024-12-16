@@ -3,10 +3,14 @@ package Visuales;
 import Entidades.Negocio;
 import Entidades.ServicioImpresora;
 import Utils.AccessPanel;
+import Utils.ManejoTintas;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.util.HashMap;
 
 public class RegistroPlotter implements AccessPanel {
     private JPanel Plotter_BG;
@@ -33,10 +37,15 @@ public class RegistroPlotter implements AccessPanel {
     private JLabel lbl_negro;
     private JTextField txtReadOnly_negro;
 
+    private final HashMap<JLabel, JTextField> mapeoTintas = new HashMap<>(){{
+        put(lbl_cian, txtReadOnly_cian);
+        put(lbl_amarillo, txtReadOnly_amarillo);
+        put(lbl_magenta, txtReadOnly_magenta);
+        put(lbl_negro, txtReadOnly_negro);
+    }};
+
 
     public RegistroPlotter(ContenedorSubMenuImp contenedor, Negocio local) {
-
-
 
         radBttn_plano.addActionListener(new ActionListener() {
             @Override
@@ -45,6 +54,7 @@ public class RegistroPlotter implements AccessPanel {
                 radBttn_plano.setSelected(true);
 
                 cambiarValorcm2(local, "Planos");
+                mostrarNivelesTinta();
 
 
             }
@@ -57,6 +67,7 @@ public class RegistroPlotter implements AccessPanel {
                 radBttn_plano.setSelected(false);
 
                 cambiarValorcm2(local, "Publicidad");
+                mostrarNivelesTinta();
             }
         });
 
@@ -70,6 +81,19 @@ public class RegistroPlotter implements AccessPanel {
                                 .SUB_MENU_IMPR);
             }
         });
+    }
+
+    private void mostrarNivelesTinta() {
+        String[][] nivelesTinta = ManejoTintas.verTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER);
+        for( JLabel lblTinta : mapeoTintas.keySet() ) {
+            for (int i = 0; i < nivelesTinta.length; i++) {
+                if(nivelesTinta[i][0].equals(lblTinta.getText().toLowerCase())) {
+                    mapeoTintas.get(lblTinta).setText(nivelesTinta[i][1]);
+                }
+            }
+        }
+
+
     }
 
     private void cambiarValorcm2(Negocio local, String tipoPlotter) {

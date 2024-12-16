@@ -1,0 +1,17 @@
+tinta
+cian;97.00;0.20
+amarillo;97.00;0.30
+magenta;97.01;0.10
+negro;97.02;0.60
+
+laser
+cian;88.00;0.60
+amarillo;88.00;0.30
+magenta;88.00;0.40
+negro;88.00;1.60
+
+plotter
+cian;50.65;0.70
+amarillo;60.34;0.50
+magenta;70.23;0.50
+negro;87.33;0.60
