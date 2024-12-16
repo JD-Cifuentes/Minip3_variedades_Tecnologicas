@@ -2,14 +2,14 @@ package Visuales;
 
 import Entidades.Negocio;
 import Entidades.ServicioImpresora;
-import Utils.AccessPanel;
-import Utils.ManejoTintas;
+import Utils.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
+import java.awt.event.KeyAdapter;
 import java.util.HashMap;
 
 public class RegistroPlotter implements AccessPanel {
@@ -47,6 +47,13 @@ public class RegistroPlotter implements AccessPanel {
 
     public RegistroPlotter(ContenedorSubMenuImp contenedor, Negocio local) {
 
+        textF_cantidad.addFocusListener(new InicializacionCamposTxtNumericos(textF_cantidad));
+        textF_ancho.addFocusListener(new InicializacionCamposTxtNumericos(textF_ancho));
+        textF_alto.addFocusListener(new InicializacionCamposTxtNumericos(textF_alto));
+        textF_cantidad.addKeyListener(new KeyListenerParaInt(textF_cantidad));
+        textF_ancho.addKeyListener(new KeyListenerParaDouble(textF_ancho));
+        textF_alto.addKeyListener(new KeyListenerParaDouble(textF_alto));
+
         radBttn_plano.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,8 +62,6 @@ public class RegistroPlotter implements AccessPanel {
 
                 cambiarValorcm2(local, "Planos");
                 mostrarNivelesTinta();
-
-
             }
         });
 
