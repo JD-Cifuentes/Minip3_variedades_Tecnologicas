@@ -71,6 +71,7 @@ public class RegistroTinta implements AccessPanel {
         bttn_volver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                reestablecerCampos();
                 contenedor.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.SUB_MENU_IMPR);
             }
         });
@@ -79,20 +80,35 @@ public class RegistroTinta implements AccessPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if((radBttn_color.isSelected() || radBttn_BN.isSelected())
-                        && ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA)
-                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0")))
-                {
+                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))) {
+                    //todo - se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
+                    //es necesario que los campos de los radio button alguno este seleccionado y que la cantidad este
+                    //establecida, a su vez para generar popups con mensajes diferentes
+                    //se agrega lógica para validar cantidad de tinta dependiendo si es color o BN
                     esColor = radBttn_color.isSelected();
                     cantidad = Integer.parseInt(textF_cantidad.getText().trim());
-                    if (esColor) {
-                        tipoImpresion = "Color";
-                        costoUnidad = 200;
-                    } else {
-                        tipoImpresion = "Blanco y Negro";
-                        costoUnidad = 100;
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
+
+                        if (esColor) {
+                            tipoImpresion = "Color";
+                            costoUnidad = 200;
+                        } else {
+                            tipoImpresion = "Blanco y Negro";
+                            costoUnidad = 100;
+                        }
+                        valorVenta = costoUnidad * cantidad;
+                        txtReadOnly_venta.setText(String.valueOf(valorVenta));
+                    }else{
+                        JOptionPane.showMessageDialog(null,
+                                "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
+                                "Tinta insuficiente para el encargo",
+                                JOptionPane.WARNING_MESSAGE);
                     }
-                    valorVenta = costoUnidad * cantidad;
-                    txtReadOnly_venta.setText(String.valueOf(valorVenta));
+                }else{
+                    JOptionPane.showMessageDialog(null,
+                            "Verifica que todos los campos esten completos",
+                            "Faltan valores",
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -100,38 +116,52 @@ public class RegistroTinta implements AccessPanel {
         bttn_registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if((radBttn_color.isSelected() || radBttn_BN.isSelected())
-                        && ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA)
+                if ((radBttn_color.isSelected() || radBttn_BN.isSelected())
                         && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
                         && !(textF_valorAPagar.getText().isEmpty() || textF_cantidad.getText().equals("0"))
-                ){
+                ) {
                     //logica de registro tinta y visualizacion de total venta
                     esColor = radBttn_color.isSelected();
                     cantidad = Integer.parseInt(textF_cantidad.getText().trim());
-                    valorPagado = Integer.parseInt(textF_valorAPagar.getText().trim());
+                    //todo - se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
+                    //es necesario que los campos de los radio button alguno este seleccionado y que la cantidad este
+                    //establecida, a su vez para generar popups con mensajes diferentes
+                    //se agrega lógica para validar cantidad de tinta dependiendo si es color o BN
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
+                        valorPagado = Integer.parseInt(textF_valorAPagar.getText().trim());
 
-                    if (valorPagado == valorVenta) {
+                        //todo - se recomienda cambiar logica para confirmar pago, revisar codigo del miniproyecto2
+                        //todavia se encuentra en el main, esta todo comentado, ver si a caso la ventana plotter pero recordar
+                        //que el registro de venta tanto para tinta como para laser es con valores enteros y no don double
+                        if (valorPagado == valorVenta) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Registro exitoso:\n" +
+                                            "Tipo de impresión: " + tipoImpresion + "\n" +
+                                            "Cantidad: " + cantidad + "\n" +
+                                            "Valor pagado: $" + valorPagado,
+                                    "Registro Exitoso",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+                            //todo - se abstrae logica para reestablecer campos
+                            reestablecerCampos();
+
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "La venta fue negada, verifica que el valor a pagar concuerde con el total venta",
+                                    "Falla al registrar la venta",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }else{
                         JOptionPane.showMessageDialog(null,
-                                "Registro exitoso:\n" +
-                                        "Tipo de impresión: " + tipoImpresion + "\n" +
-                                        "Cantidad: " + cantidad + "\n" +
-                                        "Valor pagado: $" + valorPagado,
-                                "Registro Exitoso",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        textF_cantidad.setText("");
-                        textF_valorAPagar.setText("");
-                        radBttn_color.setSelected(false);
-                        radBttn_BN.setSelected(false);
-                        txtReadOnly_venta.setText("");
-                        txtReadOnly_cian.setText("");
-                        txtReadOnly_amarillo.setText("");
-                        txtReadOnly_magenta.setText("");
-                        txtReadOnly_negro.setText("");
+                                "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
+                                "Tinta insuficiente para el encargo",
+                                JOptionPane.WARNING_MESSAGE);
                     }
-                }else {
+
+                }else{
                     JOptionPane.showMessageDialog(null,
                             "Verifica que todos los campos esten completos",
-                            "Error en el Registro",
+                            "Faltan valores",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -147,6 +177,18 @@ public class RegistroTinta implements AccessPanel {
                 }
             }
         }
+    }
+
+    private void reestablecerCampos(){
+        textF_cantidad.setText("");
+        textF_valorAPagar.setText("");
+        radBttn_color.setSelected(false);
+        radBttn_BN.setSelected(false);
+        txtReadOnly_venta.setText("");
+        txtReadOnly_cian.setText("");
+        txtReadOnly_amarillo.setText("");
+        txtReadOnly_magenta.setText("");
+        txtReadOnly_negro.setText("");
     }
 
     @Override

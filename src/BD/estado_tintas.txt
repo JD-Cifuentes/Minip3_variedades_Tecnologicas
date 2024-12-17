@@ -12,6 +12,6 @@ negro;88.00;1.60
 
 plotter
 cian;94.32;0.02
-amarillo;95.85;0.03
-magenta;95.74;0.03
-negro;99.91;0.05
+amarillo;95.84;0.03
+magenta;95.73;0.03
+negro;99.90;0.05

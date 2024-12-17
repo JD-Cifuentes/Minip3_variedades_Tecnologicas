@@ -145,7 +145,10 @@ public class RegistroPlotter implements AccessPanel {
 
                         if (confirmacionPago) {
                             JOptionPane.showMessageDialog(null,
-                                    "La venta fue grabada exitosamente",
+                                    "Registro exitoso:\n" +
+                                            "Tipo de impresión: " + ((radBttn_plano.isSelected())?"Plano":"Publicidad")+ "\n" +
+                                            "Cantidad: " + cantidadInsumoAVender + "\n" +
+                                            "Valor pagado: $" + textF_valorAPagar.getText(),
                                     "Registro exitoso",
                                     JOptionPane.INFORMATION_MESSAGE);
                             ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER, cantidadInsumoAVender);
