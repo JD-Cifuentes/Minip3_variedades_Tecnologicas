@@ -27,6 +27,22 @@ public class SubMenuImpresora implements AccessPanel {
             }
         });
 
+        bttn_FotoTinta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedorSubMenuImp.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.TINTA_MENU);
+
+            }
+        });
+
+        bttn_imprLaser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedorSubMenuImp.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.LASER_MENU);
+
+            }
+        });
+
 
     }
 
