@@ -1,5 +1,7 @@
 package Visuales;
 
+import Entidades.Negocio;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,15 +20,25 @@ public class MenuPrincipal extends JFrame {
     private JPanel Jpanel_contenido;
 
 
-    private final ContenedorSubMenuImp subImpre = new ContenedorSubMenuImp();
+    private final ContenedorSubMenuImp subImpre;
+    private final CierreDia cierreDia;
 
 
-    public MenuPrincipal() {
+    public MenuPrincipal(Negocio local) {
+        subImpre = new ContenedorSubMenuImp(local);
+        cierreDia = new CierreDia(local);
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarContenido(subImpre.getContenedorSubMenuImpre());
+            }
+        });
+
+        bttn_cierreDia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarContenido(cierreDia.getPanel());
             }
         });
 
@@ -45,7 +57,7 @@ public class MenuPrincipal extends JFrame {
     public void cambiarContenido(JPanel panel){
         try{
             panel.setSize(435,400);
-            panel.setMaximumSize(new Dimension(250,400));
+            panel.setMaximumSize(new Dimension(435,400));
             panel.setLocation(0,0);
             this.Jpanel_contenido.removeAll();
             this.Jpanel_contenido.add(panel,BorderLayout.CENTER);

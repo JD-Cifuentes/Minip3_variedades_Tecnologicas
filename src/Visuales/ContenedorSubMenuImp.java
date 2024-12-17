@@ -1,5 +1,6 @@
 package Visuales;
 
+import Entidades.Negocio;
 import Utils.AccessPanel;
 
 import javax.swing.*;
@@ -11,18 +12,26 @@ public class ContenedorSubMenuImp {
     private final HashMap<OpcionesMenuImpresora, AccessPanel> mapeoSubImprMenu;
     private final SubMenuImpresora SubMenuImpresora;
     private final RegistroPlotter registroPlotter;
+    private final RegistroTinta registroTinta;
+    private final RegistroLaser registroLaser;
 
     enum OpcionesMenuImpresora{
         SUB_MENU_IMPR,
-        PLOTTER_MENU;
+        PLOTTER_MENU,
+        TINTA_MENU,
+        LASER_MENU;
     }
 
-    public ContenedorSubMenuImp() {
+    public ContenedorSubMenuImp(Negocio local) {
         this.mapeoSubImprMenu = new HashMap<>();
-        SubMenuImpresora = new SubMenuImpresora(this);
-        registroPlotter = new RegistroPlotter(this);
+        SubMenuImpresora = new SubMenuImpresora(this, local);
+        registroPlotter = new RegistroPlotter(this, local);
+        registroTinta = new RegistroTinta(this, local);
+        registroLaser = new RegistroLaser(this, local);
         mapeoSubImprMenu.put(OpcionesMenuImpresora.SUB_MENU_IMPR, SubMenuImpresora);
         mapeoSubImprMenu.put(OpcionesMenuImpresora.PLOTTER_MENU, registroPlotter);
+        mapeoSubImprMenu.put(OpcionesMenuImpresora.TINTA_MENU, registroTinta);
+        mapeoSubImprMenu.put(OpcionesMenuImpresora.LASER_MENU, registroLaser);
 
         cambiarVisibilidadContenido(OpcionesMenuImpresora.SUB_MENU_IMPR);
 
@@ -32,7 +41,7 @@ public class ContenedorSubMenuImp {
         try{
             JPanel panel = mapeoSubImprMenu.get(enumPanel).getPanel();
             panel.setSize(435,400);
-            panel.setMaximumSize(new Dimension(250,400));
+            panel.setMaximumSize(new Dimension(435,400));
             panel.setLocation(0,0);
             panel.setVisible(true);
             Contenedor_BG.removeAll();

@@ -1,5 +1,6 @@
 package Visuales;
 
+import Entidades.Negocio;
 import Utils.AccessPanel;
 
 import javax.swing.*;
@@ -14,8 +15,7 @@ public class SubMenuImpresora implements AccessPanel {
     private JButton bttn_plotter;
 
 
-    public SubMenuImpresora(ContenedorSubMenuImp contenedorSubMenuImp) {
-        //registroPlotter = panelRaiz;
+    public SubMenuImpresora(ContenedorSubMenuImp contenedorSubMenuImp, Negocio local) {
         bttn_plotter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -23,6 +23,22 @@ public class SubMenuImpresora implements AccessPanel {
                         .cambiarVisibilidadContenido(ContenedorSubMenuImp
                                 .OpcionesMenuImpresora
                                 .PLOTTER_MENU);
+            }
+        });
+
+        bttn_FotoTinta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedorSubMenuImp.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.TINTA_MENU);
+
+            }
+        });
+
+        bttn_imprLaser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedorSubMenuImp.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.LASER_MENU);
+
             }
         });
 

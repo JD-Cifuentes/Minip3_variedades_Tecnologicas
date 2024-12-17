@@ -1,3 +1,4 @@
+import Entidades.Negocio;
 import Visuales.MenuPrincipal;
 
 import java.awt.*;
@@ -7,7 +8,8 @@ import javax.swing.plaf.FontUIResource;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        Negocio local = new Negocio(20000, 30000);
         Enumeration<Object> UIkeys = UIManager.getDefaults().keys();
         FontUIResource f = new FontUIResource(new Font("Arial", Font.PLAIN, 14));
         while (UIkeys.hasMoreElements()) {
@@ -17,18 +19,18 @@ public class Main {
                 UIManager.put (key, f);
         }
 
-        MenuPrincipal pm = new MenuPrincipal();
+        MenuPrincipal pm = new MenuPrincipal(local);
         pm.setContentPane(pm.getBackgoundMain());
         pm.setTitle("Variedades tecnológicas");
         pm.pack();
         pm.setResizable(false);
         pm.setVisible(true);
-        centreWindow(pm);
+        centrarVentana(pm);
         pm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
-    public static void centreWindow(Window frame) {
+    public static void centrarVentana(Window frame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
