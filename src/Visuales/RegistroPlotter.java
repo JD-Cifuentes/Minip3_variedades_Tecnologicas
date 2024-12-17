@@ -141,7 +141,7 @@ public class RegistroPlotter implements AccessPanel {
                         boolean confirmacionPago = local.registrarVentaServImpresion(
                                 indicePlotterseleccionado,
                                 cantidadInsumoAVender,
-                                Double.parseDouble(textF_valorAPagar.getText()));
+                                Double.parseDouble(textF_valorAPagar.getText().trim().replace(",",".")));
 
                         if (confirmacionPago) {
                             JOptionPane.showMessageDialog(null,

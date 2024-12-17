@@ -21,15 +21,24 @@ public class MenuPrincipal extends JFrame {
 
 
     private final ContenedorSubMenuImp subImpre;
+    private final CierreDia cierreDia;
 
 
     public MenuPrincipal(Negocio local) {
         subImpre = new ContenedorSubMenuImp(local);
+        cierreDia = new CierreDia(local);
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarContenido(subImpre.getContenedorSubMenuImpre());
+            }
+        });
+
+        bttn_cierreDia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarContenido(cierreDia.getPanel());
             }
         });
 

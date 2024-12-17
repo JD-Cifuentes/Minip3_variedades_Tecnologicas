@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Arrays;
 import java.util.Locale;
 
 
@@ -17,6 +18,9 @@ public class ManejoTintas {
 	private static final String rutaTintaTxt = "src/BD/estado_tintas.txt";
 	private static final int factorReduccionParaPlotter = 10000;
 	private static final int factorAumentoConsumoTintaNegra = 5;
+	private static final int cantidadFilasTxt = 21;
+	private static final int cantidadColumnasTxt = 3;
+	private static final int cantidadCartuchos = 4;
 
 	public enum tipoImpresoraEnBDTxt{
 		TINTA,
@@ -25,7 +29,7 @@ public class ManejoTintas {
 	}
 
 	public static String[][] verTinta(tipoImpresoraEnBDTxt tImp) {
-		String[][] estadoCartuchos = new String[4][2];
+		String[][] estadoCartuchos = new String[cantidadCartuchos][cantidadColumnasTxt-1];
         try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
 
 			String linea;
@@ -48,7 +52,7 @@ public class ManejoTintas {
     }
 
 	public static boolean validarNivelTinta(tipoImpresoraEnBDTxt tImp, double cantidadInsumoAVender){
-		String[][] estadoCartuchos = new String[18][3];
+		String[][] estadoCartuchos = new String[cantidadFilasTxt][cantidadColumnasTxt];
 		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
 			String linea;
 			int cnt = 0;
@@ -61,7 +65,7 @@ public class ManejoTintas {
 
 			for(int i = 0; i < estadoCartuchos.length; i++){
 				if(estadoCartuchos[i][0].contains(tImp.toString().toLowerCase())){
-					int finalRangoDeTintas = i + 4;
+					int finalRangoDeTintas = i + cantidadCartuchos;
 					while(finalRangoDeTintas > i){
 						i++;
 						double porcentajeTinta = Double.parseDouble(estadoCartuchos[i][1]);
@@ -84,7 +88,7 @@ public class ManejoTintas {
 	}
 
 	public static boolean validarNivelTinta(tipoImpresoraEnBDTxt tImp, int cantidadInsumoAVender, boolean esColor){
-		String[][] estadoCartuchos = new String[18][3];
+		String[][] estadoCartuchos = new String[cantidadFilasTxt][cantidadColumnasTxt];
 		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
 			String linea;
 			int cnt = 0;
@@ -97,7 +101,7 @@ public class ManejoTintas {
 
 			for(int i = 0; i < estadoCartuchos.length; i++){
 				if(estadoCartuchos[i][0].contains(tImp.toString().toLowerCase())){
-					int finalRangoDeTintas = i + 4;
+					int finalRangoDeTintas = i + cantidadCartuchos;
 					if(esColor){
 						while(finalRangoDeTintas > i){
 							i++;
@@ -128,7 +132,7 @@ public class ManejoTintas {
 
     public static void mermarNivelTinta(tipoImpresoraEnBDTxt tImp, double cantidadInsumoAVender) {
 
-		String[][] estadoCartuchos = new String[18][3];
+		String[][] estadoCartuchos = new String[cantidadFilasTxt][cantidadColumnasTxt];
 		
 		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
 			String linea;
@@ -142,18 +146,24 @@ public class ManejoTintas {
 
 			for(int i = 0; i < estadoCartuchos.length; i++){
 				if(estadoCartuchos[i][0].contains(tImp.toString().toLowerCase())){
-					int finalRangoDeTintas = i + 4;
+					int finalRangoDeTintas = i + cantidadCartuchos;
+					int indiceTotalConsumoDeTinta = finalRangoDeTintas + 1;
+					double porcentajeTotalTintaConsumida = Double.parseDouble(estadoCartuchos[indiceTotalConsumoDeTinta][1]);
 					while(finalRangoDeTintas > i){
 						i++;
 						double porcentajeTinta = Double.parseDouble(estadoCartuchos[i][1]);
 						double pasoDisminucionTinta = Double.parseDouble(estadoCartuchos[i][2]);
+						double tintaConsumida = pasoDisminucionTinta*cantidadInsumoAVender/ factorReduccionParaPlotter;
 
-						 if (porcentajeTinta > pasoDisminucionTinta*cantidadInsumoAVender/ factorReduccionParaPlotter) {
-							 porcentajeTinta = porcentajeTinta - pasoDisminucionTinta*cantidadInsumoAVender/ factorReduccionParaPlotter;
-						 }else{
-							 throw new IllegalArgumentException("Tinta insuficiente: " + estadoCartuchos[i][0]);
-						 }
+						if (porcentajeTinta > tintaConsumida) {
+							porcentajeTinta = porcentajeTinta - tintaConsumida;
+						}else{
+							throw new IllegalArgumentException("Tinta insuficiente: " + estadoCartuchos[i][0]);
+						}
 						estadoCartuchos[i][1] = df.format(porcentajeTinta);
+						estadoCartuchos[indiceTotalConsumoDeTinta][1] =
+								df.format(tintaConsumida + porcentajeTotalTintaConsumida);
+
 					}
 					break;
 				}
@@ -167,7 +177,7 @@ public class ManejoTintas {
 
 	public static void mermarNivelTinta(tipoImpresoraEnBDTxt tImp, int cantidadInsumoAVender, boolean esColor) {
 
-		String[][] estadoCartuchos = new String[18][3];
+		String[][] estadoCartuchos = new String[cantidadFilasTxt][cantidadColumnasTxt];
 
 		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
 			String linea;
@@ -181,30 +191,39 @@ public class ManejoTintas {
 
 			for(int i = 0; i < estadoCartuchos.length; i++){
 				if(estadoCartuchos[i][0].contains(tImp.toString().toLowerCase())){
-					int finalRangoDeTintas = i + 4;
+					int finalRangoDeTintas = i + cantidadCartuchos;
+					int indiceTotalConsumoDeTinta = finalRangoDeTintas + 1;
+					double porcentajeTotalTintaConsumida = Double.parseDouble(estadoCartuchos[indiceTotalConsumoDeTinta][1]);
+
 					if(esColor){
 						while(finalRangoDeTintas > i){
 							i++;
 							double porcentajeTinta = Double.parseDouble(estadoCartuchos[i][1]);
 							double pasoDisminucionTinta = Double.parseDouble(estadoCartuchos[i][2]);
+							double tintaConsumida = pasoDisminucionTinta*cantidadInsumoAVender;
 
-							if (porcentajeTinta > pasoDisminucionTinta*cantidadInsumoAVender) {
-								porcentajeTinta = porcentajeTinta - pasoDisminucionTinta*cantidadInsumoAVender;
+							if (porcentajeTinta > tintaConsumida) {
+								porcentajeTinta = porcentajeTinta - tintaConsumida;
 							}else{
 								throw new IllegalArgumentException("Tinta insuficiente: " + estadoCartuchos[i][0]);
 							}
 							estadoCartuchos[i][1] = df.format(porcentajeTinta);
+							estadoCartuchos[indiceTotalConsumoDeTinta][1] =
+									df.format(tintaConsumida + porcentajeTotalTintaConsumida);
 						}
 					}else {
 						double porcentajeTinta = Double.parseDouble(estadoCartuchos[finalRangoDeTintas][1]);
 						double pasoDisminucionTinta = Double.parseDouble(estadoCartuchos[finalRangoDeTintas][2]);
+						double tintaConsumida = pasoDisminucionTinta*cantidadInsumoAVender*factorAumentoConsumoTintaNegra;
 
-						if (porcentajeTinta > pasoDisminucionTinta*cantidadInsumoAVender*factorAumentoConsumoTintaNegra) {
-							porcentajeTinta = porcentajeTinta - pasoDisminucionTinta*cantidadInsumoAVender*factorAumentoConsumoTintaNegra;
+						if (porcentajeTinta > tintaConsumida) {
+							porcentajeTinta = porcentajeTinta - tintaConsumida;
 						}else{
 							throw new IllegalArgumentException("Tinta insuficiente: " + estadoCartuchos[finalRangoDeTintas][0]);
 						}
 						estadoCartuchos[finalRangoDeTintas][1] = df.format(porcentajeTinta);
+						estadoCartuchos[indiceTotalConsumoDeTinta][1] =
+								df.format(tintaConsumida + porcentajeTotalTintaConsumida);
 					}
 
 					break;
@@ -225,8 +244,11 @@ public class ManejoTintas {
 				if(estadoCartuchos[i][0] == null){
 					writer.write("");
 					continue;
-				}else if(estadoCartuchos[i].length == 1){
+				}else if(estadoCartuchos[i].length == 1) {
 					writer.write(estadoCartuchos[i][0]);
+				}else if(estadoCartuchos[i].length == 2){
+					writer.write(estadoCartuchos[i][0]
+							+ ";" + estadoCartuchos[i][1]);
 				}else{
 					writer.write(estadoCartuchos[i][0]
 							+ ";" + estadoCartuchos[i][1]

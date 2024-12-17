@@ -16,7 +16,6 @@ public class SubMenuImpresora implements AccessPanel {
 
 
     public SubMenuImpresora(ContenedorSubMenuImp contenedorSubMenuImp, Negocio local) {
-        //registroPlotter = panelRaiz;
         bttn_plotter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
