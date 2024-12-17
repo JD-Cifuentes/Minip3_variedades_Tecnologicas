@@ -132,29 +132,37 @@ public class RegistroPlotter implements AccessPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if((radBttn_plano.isSelected() || radBttn_publicidad.isSelected())
-                        && ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER)
                         && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
                         && !(textF_ancho.getText().isEmpty() || textF_ancho.getText().equals("0"))
                         && !(textF_alto.getText().isEmpty() || textF_alto.getText().equals("0"))
                         && !(textF_valorAPagar.getText().isEmpty() || textF_valorAPagar.getText().equals("0"))
                 ){
-                    boolean confirmacionPago = local.registrarVentaServImpresion(
-                            indicePlotterseleccionado,
-                            cantidadInsumoAVender,
-                            Double.parseDouble(textF_valorAPagar.getText()));
+                    if(ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER, cantidadInsumoAVender)){
+                        boolean confirmacionPago = local.registrarVentaServImpresion(
+                                indicePlotterseleccionado,
+                                cantidadInsumoAVender,
+                                Double.parseDouble(textF_valorAPagar.getText()));
 
-                    if (confirmacionPago) {
+                        if (confirmacionPago) {
+                            JOptionPane.showMessageDialog(null,
+                                    "La venta fue grabada exitosamente",
+                                    "Registro exitoso",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.PLOTTER, cantidadInsumoAVender);
+                            reiniciarCampos();
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "La venta fue negada, verifica que el valor a pagar concuerde con el total venta",
+                                    "Falla al registrar la venta",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }else {
                         JOptionPane.showMessageDialog(null,
-                                "La venta fue grabada exitosamente",
-                                "Registro exitoso",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        reiniciarCampos();
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "La venta fue negada, verifica que el valor a pagar concuerde con el total venta",
-                                "Falla al registrar la venta",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
+                                "Tinta insuficiente para el encargo",
+                                JOptionPane.WARNING_MESSAGE);
                     }
+
                 }else{
                     JOptionPane.showMessageDialog(null,
                             "Verifica que todos los campos esten completos",
