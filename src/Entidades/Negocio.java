@@ -61,11 +61,8 @@ public class Negocio {
     }
 
     public boolean registrarVentaOperador(int servOperadorSeleccionado, int cantidad, double valorPagado){
-        if(cantidad > 0
-                && servOperadorSeleccionado >=0
-                && servOperadorSeleccionado < this.operadores.size()
+        if(cantidad > 0 && servOperadorSeleccionado >=0 && servOperadorSeleccionado < this.operadores.size()
                 && valorPagado == cantidad * this.operadores.get(servOperadorSeleccionado).getValorVentaUnidad()){
-
             //Aqui se puede ver como el uso de enum en operador ha facilitado el registro de la venta, ya que
             //solo con el indice de la lista se puede completar la transacción, evitando tener que recibir el tipo de
             //servicio, e insertar condicionales para definir en qué campos se reflejaría la transacción.
@@ -75,6 +72,19 @@ public class Negocio {
             return true;
         }
         return false;
+    }
+
+    public double calcularValorVenta(String operador, String tipo, int cantidad){
+        double valorService=0;
+        for(Operador op : this.operadores){
+            if(op.getNombre() == operador && op.getTipoServ().toString() == tipo){
+                System.out.println(op.getNombre() + " " + op.getTipoServ().toString());
+                valorService = op.getValorVentaUnidad();
+            };
+        }
+        return cantidad * valorService;
+        //return cantidad * this.operadores.get(/*Index del operador*/1).getValorVentaUnidad();
+
     }
 
     public boolean registrarVentaServImpresion(int tipoImpresion, int cantidad, double valorPagado){
