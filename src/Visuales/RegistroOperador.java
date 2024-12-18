@@ -20,7 +20,6 @@ public class RegistroOperador implements AccessPanel {
     private JLabel lbl_tipoServicio;
     private JComboBox cBox_Operador;
     private JComboBox cBox_Servicio;
-    private JFormattedTextField textFF_cantidad;
     private JTextField textF_valorVenta;
     private JButton btn_calcularVenta;
     private JLabel lbl_valorPagado;
@@ -30,6 +29,7 @@ public class RegistroOperador implements AccessPanel {
     private JButton bttn_volver;
 
     public RegistroOperador(Negocio local) {
+
         textF_cantidad.addFocusListener(new InicializacionCamposTxtNumericos(textF_cantidad));
         textF_valorPagado.addFocusListener(new InicializacionCamposTxtNumericos(textF_valorPagado));
         textF_cantidad.addKeyListener(new KeyListenerParaInt(textF_cantidad));
@@ -51,36 +51,57 @@ public class RegistroOperador implements AccessPanel {
             cBox_Servicio.addItem(tipoServicio.toString());
         }
 
+        cBox_Operador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String opcionOperador = cBox_Operador.getSelectedItem().toString();
+                System.out.println("Escogiste el Operador " + opcionOperador);
+                String opcionTipoServ = cBox_Servicio.getSelectedItem().toString();
+                System.out.println("Escogiste el Tipo Servicio " + opcionTipoServ);
+            }
+        });
+
+        cBox_Servicio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String opcionOperador = cBox_Operador.getSelectedItem().toString();
+                System.out.println("Escogiste el Operador " + opcionOperador);
+                String opcionTipoServ = cBox_Servicio.getSelectedItem().toString();
+                System.out.println("Escogiste el Tipo Servicio " + opcionTipoServ);
+            }
+        });
+
         btn_calcularVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int idOperador;
                 String tipoOperador = cBox_Operador.getSelectedItem().toString();
                 String tipoServicio = cBox_Servicio.getSelectedItem().toString();
+                idOperador = local.searchIndex(tipoOperador, tipoServicio);
                 int cantidad = Integer.parseInt(textF_cantidad.getText().trim());
                 if(cantidad>0){
-                    double valorVenta = local.calcularValorVenta(tipoOperador, tipoServicio, cantidad);
+                    double valorVenta = local.calcularValorVenta(idOperador, cantidad);
                     textF_valorVenta.setText(String.valueOf(valorVenta));
                 }else{
                     JOptionPane.showMessageDialog(null,"Ingrese una Cantidad Correcta");
                 }
             }
         });
-        cBox_Operador.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String opcionOperador = cBox_Operador.getSelectedItem().toString();
-                System.out.println("Escogiste el Operador " + opcionOperador);
-            }
-        });
+
         bttn_registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int cantidad = Integer.parseInt(textF_cantidad.getText().trim());
-                double valorPagado = Double.parseDouble(textF_valorPagado.getText().trim());
-                if(cantidad>0 &&
-                        (valorPagado == Double.parseDouble(textF_valorVenta.getText().trim()))){
-                    int num = 0;    // Supongo el "index" porque el metodo recibe un entero
-                    if(local.registrarVentaOperador(num, cantidad, valorPagado)) {
+                int idOperador, cantidad;
+                double valorPagado, valorVenta;
+                String tipoOperador = cBox_Operador.getSelectedItem().toString();
+                String tipoServicio = cBox_Servicio.getSelectedItem().toString();
+                idOperador = local.searchIndex(tipoOperador, tipoServicio);
+                cantidad = Integer.parseInt(textF_cantidad.getText().trim());
+                valorVenta = local.calcularValorVenta(idOperador, cantidad);
+                valorPagado = Double.parseDouble(textF_valorPagado.getText().trim());
+                boolean bandera = (valorPagado == valorVenta);
+                if(cantidad>0 && bandera){
+                    if(local.registrarVentaOperador(idOperador, cantidad, valorPagado)) {
                         JOptionPane.showMessageDialog(null, "Venta Operador registrado correctamente");
                     }
                     else{
@@ -88,7 +109,7 @@ public class RegistroOperador implements AccessPanel {
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Ingrese una Cantidad Correcta");
+                    JOptionPane.showMessageDialog(null,"Ingrese una Cantidad Correcta de Pago o Cambie la Cantidad");
                 }
             }
         });

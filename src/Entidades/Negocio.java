@@ -74,21 +74,23 @@ public class Negocio {
         return false;
     }
 
-    //  Creo este nuevo metodo que permite calcular el valor que se debe pagar
-    public double calcularValorVenta(String operador, String tipo, int cantidad){
-        double valorService=0;
-        // Creo un For Each para poder capturar el valor que necesito, porque no tengo el index para encontrarlo
-        for(Operador op : this.operadores){
-            // Valido cada valor del iterador con cada uno de los datos de la interfaz
-            if(op.getNombre() == operador && op.getTipoServ().toString() == tipo){
-                System.out.println(op.getNombre() + " " + op.getTipoServ().toString());
-                valorService = op.getValorVentaUnidad();
-            };
-        }
-        return cantidad * valorService;
-        //return cantidad * this.operadores.get(/*Index del operador*/1).getValorVentaUnidad();
-
+    //  Metodo que nos ayuda a calcular el valor a pagar
+    public double calcularValorVenta(int indexOperador,int cantidad){
+        return cantidad * this.operadores.get(indexOperador).getValorVentaUnidad();
     }
+
+    //  Este metodo nos ayuda a buscar el indice que tiene el operador y servicio
+    public int searchIndex(String operador, String tipo){
+        int contador = 0, indexOperador = 0;
+        for(Operador op : this.operadores){
+            if(op.getNombre() == operador && op.getTipoServ().toString() == tipo){
+                indexOperador = contador;
+            }
+            contador++;
+        }
+        return indexOperador;
+    }
+
 
     public boolean registrarVentaServImpresion(int tipoImpresion, int cantidad, double valorPagado){
         if(tipoImpresion >= 0
