@@ -1,9 +1,9 @@
 tinta
-cian;97.00;0.20
-amarillo;97.00;0.30
-magenta;97.01;0.10
-negro;97.02;0.60
-total consumido; 0.00
+cian;93.00;0.20
+amarillo;91.00;0.30
+magenta;95.01;0.10
+negro;79.02;0.60
+total consumido;18.00
 
 laser
 cian;88.00;0.60

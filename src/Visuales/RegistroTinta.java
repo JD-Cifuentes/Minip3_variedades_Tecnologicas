@@ -1,6 +1,7 @@
 package Visuales;
 
 import Entidades.Negocio;
+import Entidades.ServicioImpresora;
 import Utils.*;
 
 import javax.swing.*;
@@ -30,12 +31,14 @@ public class RegistroTinta implements AccessPanel {
     private JLabel lbl_nivelTinta;
     private JTextField txtReadOnly_venta;
     private JButton bttn_venta;
-    private String tipoImpresion = "";
+
     private boolean esColor = false;
+    private String tipoImpresion = "";
     private int cantidad = 0;
     private int valorPagado = 0;
     private int costoUnidad = 0;
     private int valorVenta = 0;
+    private int indiceTintaseleccionado;
 
     private final HashMap<JLabel, JTextField> mapeoTintas = new HashMap<>(){{
         put(lbl_cian, txtReadOnly_cian);
@@ -79,29 +82,36 @@ public class RegistroTinta implements AccessPanel {
         bttn_venta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //validar ingreso de datos
                 if((radBttn_color.isSelected() || radBttn_BN.isSelected())
-                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))) {
-                    //todo - se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
+                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                ){
+                    //se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
                     //es necesario que los campos de los radio button alguno este seleccionado y que la cantidad este
                     //establecida, a su vez para generar popups con mensajes diferentes
                     //se agrega lógica para validar cantidad de tinta dependiendo si es color o BN
-                    esColor = radBttn_color.isSelected();
-                    cantidad = Integer.parseInt(textF_cantidad.getText().trim());
-                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
 
-                        if (esColor) {
-                            tipoImpresion = "Color";
-                            costoUnidad = 200;
-                        } else {
-                            tipoImpresion = "Blanco y Negro";
-                            costoUnidad = 100;
+                    //determinar tipo impresion y obtener costo
+                    cantidad = Integer.parseInt(textF_cantidad.getText().trim());
+                    esColor = radBttn_color.isSelected();
+                    tipoImpresion = esColor ? "Fotocopia-Color" : "Fotocopia-BN";
+
+                    //validar disponibilidad de tinta
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
+                        //calcular el valor de la venta dependiendo tipo impresion y mostrar
+                        for(ServicioImpresora servImp : local.getServicioImpresora()) {
+                            if (servImp.getTipo().contains(tipoImpresion)) {
+                                costoUnidad = (int) servImp.getValorParaVenta();
+                                valorVenta = costoUnidad * cantidad;
+                                txtReadOnly_venta.setText(String.valueOf(valorVenta));
+                                indiceTintaseleccionado = local.getServicioImpresora().indexOf(servImp);
+                                break;
+                            }
                         }
-                        valorVenta = costoUnidad * cantidad;
-                        txtReadOnly_venta.setText(String.valueOf(valorVenta));
                     }else{
                         JOptionPane.showMessageDialog(null,
                                 "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
-                                "Tinta insuficiente para el encargo",
+                                "Tinta insuficiente",
                                 JOptionPane.WARNING_MESSAGE);
                     }
                 }else{
@@ -116,51 +126,52 @@ public class RegistroTinta implements AccessPanel {
         bttn_registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //validar ingreso de datos
                 if ((radBttn_color.isSelected() || radBttn_BN.isSelected())
                         && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
-                        && !(textF_valorAPagar.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                        && !(textF_valorAPagar.getText().isEmpty() || textF_valorAPagar.getText().equals("0"))
+                        && !(txtReadOnly_venta.getText().isEmpty()) //validar que se haya calculado la venta
                 ) {
-                    //logica de registro tinta y visualizacion de total venta
-                    esColor = radBttn_color.isSelected();
-                    cantidad = Integer.parseInt(textF_cantidad.getText().trim());
-                    //todo - se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
+                    //se separa condicional de tintas, ya que se necesita, primero validar la tinta y para eso
                     //es necesario que los campos de los radio button alguno este seleccionado y que la cantidad este
                     //establecida, a su vez para generar popups con mensajes diferentes
-                    //se agrega lógica para validar cantidad de tinta dependiendo si es color o BN
+
+                    //validar disponibilidad de tinta dependiendo si es color o BN
                     if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
                         valorPagado = Integer.parseInt(textF_valorAPagar.getText().trim());
+                        boolean confirmacionPago = local.registrarVentaServImpresion(
+                                indiceTintaseleccionado, cantidad, valorPagado);
 
-                        //todo - se recomienda cambiar logica para confirmar pago, revisar codigo del miniproyecto2
-                        //todavia se encuentra en el main, esta todo comentado, ver si a caso la ventana plotter pero recordar
+                        //se recomienda cambiar logica para confirmar pago, revisar codigo del miniproyecto2
+                        //todavia se encuentra en el main, esta comentado, ver si acaso la ventana plotter pero recordar
                         //que el registro de venta tanto para tinta como para laser es con valores enteros y no don double
-                        if (valorPagado == valorVenta) {
+
+                        if (confirmacionPago) {
                             JOptionPane.showMessageDialog(null,
-                                    "Registro exitoso:\n" +
-                                            "Tipo de impresión: " + tipoImpresion + "\n" +
+                                    "Registro exitoso Fotocopia Tinta\n" +
+                                            "Tipo de impresión: " + (esColor ? "Color" : "Blanco y Negro") + "\n" +
                                             "Cantidad: " + cantidad + "\n" +
                                             "Valor pagado: $" + valorPagado,
-                                    "Registro Exitoso",
+                                    "Venta registrada",
                                     JOptionPane.INFORMATION_MESSAGE);
-
-                            //todo - se abstrae logica para reestablecer campos
+                            ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor);
                             reestablecerCampos();
-
                         } else {
                             JOptionPane.showMessageDialog(null,
-                                    "La venta fue negada, verifica que el valor a pagar concuerde con el total venta",
+                                    "Verifica que el valor a pagar sea correcto",
                                     "Falla al registrar la venta",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
                     }else{
                         JOptionPane.showMessageDialog(null,
                                 "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
-                                "Tinta insuficiente para el encargo",
+                                "Tinta insuficiente",
                                 JOptionPane.WARNING_MESSAGE);
                     }
-
                 }else{
                     JOptionPane.showMessageDialog(null,
-                            "Verifica que todos los campos esten completos",
+                            "Verifica que todos los campos esten completos\n" +
+                                    "Calcule el valor de la venta para asegurar el registro",
                             "Faltan valores",
                             JOptionPane.WARNING_MESSAGE);
                 }
