@@ -88,8 +88,8 @@ public class CierreDia implements AccessPanel {
                 totalCostos += local.getCostoEmpleadoDia() + local.getCostoEnergiaDia();
 
                 txtReadOnly_totalDineroRecogido.setText("$" + totalIngresos);
-                txtReadOnly_gananciaObtenida.setText("$" + totalIngresos);
-                txtReadOnly_gastosProduccion.setText("$" + totalIngresos);
+                txtReadOnly_gananciaObtenida.setText("$" + ganacias);
+                txtReadOnly_gastosProduccion.setText("$" + totalCostos);
                 txtReadOnly_servicioConMayorGanancia.setText(
                         ((servicioConMayorGanacias == null) ? "Ningún servicio facturado"
                                 : servicioConMayorGanacias + " con $" + ganaciaMax));
