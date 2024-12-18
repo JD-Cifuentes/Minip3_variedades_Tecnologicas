@@ -79,7 +79,7 @@ public class RegistroOperador implements AccessPanel {
                 double valorPagado = Double.parseDouble(textF_valorPagado.getText().trim());
                 if(cantidad>0 &&
                         (valorPagado == Double.parseDouble(textF_valorVenta.getText().trim()))){
-                    int num = 0;
+                    int num = 0;    // Supongo el "index" porque el metodo recibe un entero
                     if(local.registrarVentaOperador(num, cantidad, valorPagado)) {
                         JOptionPane.showMessageDialog(null, "Venta Operador registrado correctamente");
                     }

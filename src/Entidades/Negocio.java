@@ -74,9 +74,12 @@ public class Negocio {
         return false;
     }
 
+    //  Creo este nuevo metodo que permite calcular el valor que se debe pagar
     public double calcularValorVenta(String operador, String tipo, int cantidad){
         double valorService=0;
+        // Creo un For Each para poder capturar el valor que necesito, porque no tengo el index para encontrarlo
         for(Operador op : this.operadores){
+            // Valido cada valor del iterador con cada uno de los datos de la interfaz
             if(op.getNombre() == operador && op.getTipoServ().toString() == tipo){
                 System.out.println(op.getNombre() + " " + op.getTipoServ().toString());
                 valorService = op.getValorVentaUnidad();
