@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Arrays;
 import java.util.Locale;
 
 
@@ -22,10 +21,42 @@ public class ManejoTintas {
 	private static final int cantidadColumnasTxt = 3;
 	private static final int cantidadCartuchos = 4;
 
+
 	public enum tipoImpresoraEnBDTxt{
 		TINTA,
 		LASER,
 		PLOTTER
+	}
+
+	public static String[][] totalesConsumoTintas() {
+		String[][] totales = new String[tipoImpresoraEnBDTxt.values().length][2];
+		String[][] estadoCartuchos = new String[cantidadFilasTxt][cantidadColumnasTxt];
+
+		try (BufferedReader lineas = new BufferedReader(new FileReader(rutaTintaTxt))) {
+			String linea;
+			int i = 0;
+			while( (linea=lineas.readLine()) != null) {
+				String[] datoTinta = linea.split(";");
+				estadoCartuchos[i] = datoTinta;
+				i++;
+			}
+		}catch (IOException e) {
+			System.out.println("Error! :"+e);
+		}
+		int indexParaTotales = 0;
+		for(tipoImpresoraEnBDTxt tipo : tipoImpresoraEnBDTxt.values()) {
+			for(int fila = 0; fila < cantidadFilasTxt; fila++) {
+				if(estadoCartuchos[fila][0].equals(tipo.toString().toLowerCase())) {
+					totales[indexParaTotales][0] = tipo.toString().toLowerCase();
+					totales[indexParaTotales][1] = estadoCartuchos[fila+5][1];
+					indexParaTotales++;
+					break;
+				}
+			}
+		}
+
+
+		return totales;
 	}
 
 	public static String[][] verTinta(tipoImpresoraEnBDTxt tImp) {

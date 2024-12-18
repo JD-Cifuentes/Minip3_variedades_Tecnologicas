@@ -12,7 +12,7 @@
     <children>
       <hspacer id="1f078">
         <constraints>
-          <grid row="0" column="0" row-span="10" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="4" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="10" height="-1"/>
             <maximum-size width="10" height="-1"/>
           </grid>
@@ -20,7 +20,7 @@
       </hspacer>
       <hspacer id="c165b">
         <constraints>
-          <grid row="0" column="3" row-span="10" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="4" column="3" row-span="4" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="10" height="-1"/>
             <maximum-size width="10" height="-1"/>
           </grid>
@@ -47,9 +47,10 @@
           <grid row="8" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-9064273"/>
+          <background color="-12357778"/>
+          <borderPainted value="false"/>
           <foreground color="-131077"/>
-          <opaque value="false"/>
+          <opaque value="true"/>
           <text value="Generar Cierre del día"/>
         </properties>
       </component>
@@ -60,7 +61,7 @@
         <properties>
           <foreground color="-131077"/>
           <labelFor value="72c3b"/>
-          <text value="Total dinero recogido : "/>
+          <text value="Total dinero recogido: "/>
         </properties>
       </component>
       <component id="de86b" class="javax.swing.JLabel" binding="lbl_totalGanacia">
@@ -70,7 +71,7 @@
         <properties>
           <foreground color="-131077"/>
           <labelFor value="1c9c"/>
-          <text value="Ganancia obtenida : "/>
+          <text value="Ganancia obtenida: "/>
         </properties>
       </component>
       <component id="448" class="javax.swing.JLabel" binding="lbl_gastosDeProduccion">
@@ -80,7 +81,7 @@
         <properties>
           <foreground color="-131077"/>
           <labelFor value="a2ae9"/>
-          <text value="Gastos de producción : "/>
+          <text value="Gastos de producción: "/>
         </properties>
       </component>
       <component id="50e91" class="javax.swing.JLabel" binding="lbl_servicioConMayorGanacia">
@@ -90,17 +91,17 @@
         <properties>
           <foreground color="-131077"/>
           <labelFor value="d609"/>
-          <text value="Servicio con mayor ganancia : "/>
+          <text value="Mayor ganancia en: "/>
         </properties>
       </component>
       <component id="12cc1" class="javax.swing.JLabel" binding="lbl_impresoraConMenorGanacia">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <foreground color="-131077"/>
           <labelFor value="f0124"/>
-          <text value="Impresora con menor ganancia : "/>
+          <text value="Impr. con menor ganancia: "/>
         </properties>
       </component>
       <component id="b8dde" class="javax.swing.JLabel" binding="lbl_impresoraConMasConsumo">
@@ -110,7 +111,7 @@
         <properties>
           <foreground color="-131077"/>
           <labelFor value="c7a3c"/>
-          <text value="Impresora con mayor consumo de tinta : "/>
+          <text value="Mayor consumo de tinta: "/>
         </properties>
       </component>
       <component id="72c3b" class="javax.swing.JTextField" binding="txtReadOnly_totalDineroRecogido">

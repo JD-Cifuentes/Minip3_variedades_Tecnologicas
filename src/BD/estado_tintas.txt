@@ -13,8 +13,8 @@ negro;88.00;1.60
 total consumido; 0.00
 
 plotter
-cian;90.58;0.02
-amarillo;90.23;0.03
-magenta;90.12;0.03
-negro;90.55;0.05
-total consumido;9.36
+cian;90.45;0.02
+amarillo;90.04;0.03
+magenta;89.93;0.03
+negro;90.23;0.05
+total consumido;9.68
