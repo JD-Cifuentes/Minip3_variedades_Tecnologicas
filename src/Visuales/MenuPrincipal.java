@@ -59,10 +59,12 @@ public class MenuPrincipal extends JFrame {
             panel.setSize(435,400);
             panel.setMaximumSize(new Dimension(435,400));
             panel.setLocation(0,0);
+            panel.setFocusable(false);
             this.Jpanel_contenido.removeAll();
             this.Jpanel_contenido.add(panel,BorderLayout.CENTER);
             this.Jpanel_contenido.revalidate();
             this.Jpanel_contenido.repaint();
+            panel.setFocusable(true);
         }catch (NullPointerException e){
             System.out.println(e + " en menu principal - cambiarContenido");
         }
