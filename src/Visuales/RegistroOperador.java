@@ -1,6 +1,7 @@
 package Visuales;
 
 
+import Entidades.Negocio;
 import Utils.*;
 
 import javax.swing.*;
@@ -24,8 +25,8 @@ public class RegistroOperador implements AccessPanel {
     private JButton bttn_registrar;
     private JButton bttn_volver;
 
-    public RegistroOperador() {
-        bttn_volver.addActionListener(new ActionListener() {
+    public RegistroOperador(Negocio local) {
+        btn_calcularVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
