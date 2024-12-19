@@ -23,7 +23,7 @@ public class ManejoTintas {
 
 
 	public enum tipoImpresoraEnBDTxt{
-		TINTA,
+		FOTOCOPIA,
 		LASER,
 		PLOTTER
 	}

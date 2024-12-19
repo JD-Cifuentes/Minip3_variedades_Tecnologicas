@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -29,32 +30,33 @@ public class CierreDia implements AccessPanel {
     private JTextField txtReadOnly_servicioConMayorGanancia;
     private JTextField txtReadOnly_impresoraConmenorGanacia;
     private JTextField txtReadOnly_impresoraMayorConsumoTinta;
+    private JLabel lbl_tituloCierreDia;
 
     public CierreDia(Negocio local) {
 
         bttn_generarCierreDia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Utilizamos en este punto la clase Object para poder capturar el objeto que tenga mayor ganancia,
-                //esto gracias a que Object es la clase base para todas las clases que se crean en un proyecto, ya que
-                //está implicitamente heredada en cada una y por lo tanto, al referenciar la variable servicioConMayorGanacias
-                //con Object, se nos permite alojar la referencia a cualquier tipo de objeto ya que todas las clases derivan de esta.
-                Object servicioConMayorGanacias = null;
-                ServicioImpresora servConMenorGanacia = null;
-                double menorGanaciaDeImpresora = 0.0;
+
+                String servicioConMayorGanacias = "";
                 double ganaciaMax = 0.0;
+                String servImprConMenorGanacia = "";
+                double menorGanaciaDeImpresora = 0.0;
+
                 double totalIngresos = 0.0;
                 double totalCostos = 0.0;
                 double ganacias = 0.0;
+
                 String[][] totalesConsumoDeTintas = ManejoTintas.totalesConsumoTintas();
                 String impresoraConMayorConsumoTinta = "";
                 double consumoTintaMayor = 0.0;
 
-                HashMap<String, Double> ganaciasServiciosRegistrados = new HashMap<>();
+                HashMap<String, Double> ganaciasImpresorasRegistradas = new HashMap<>();
+                HashMap<String, Double> ganaciasOperadoresRegistrados = new HashMap<>();
 
                 for(String[] impresorasRegistradas : totalesConsumoDeTintas){
-                    if(!ganaciasServiciosRegistrados.containsKey(impresorasRegistradas[0])){
-                        ganaciasServiciosRegistrados.put(impresorasRegistradas[0], 0.0);
+                    if(!ganaciasImpresorasRegistradas.containsKey(impresorasRegistradas[0])){
+                        ganaciasImpresorasRegistradas.put(impresorasRegistradas[0], 0.0);
                     }
                 }
 
@@ -69,44 +71,63 @@ public class CierreDia implements AccessPanel {
                     totalCostos += servimp.valorCostos();
                     totalIngresos += servimp.getTotalIngresos();
                     ganacias += servimp.ganancia();
-                    String impresora = "";
+
                     for(String[] imprReg : totalesConsumoDeTintas){
-                        if(servimp.getTipo().contains(imprReg[0])){
-                            impresora = imprReg[0];
+                        if(servimp.getTipo().toLowerCase().contains(imprReg[0])){
+                            String impresora = imprReg[0];
+                            double gananciaActualDeLaImpr = ganaciasImpresorasRegistradas.get(impresora);
+                            ganaciasImpresorasRegistradas.replace(impresora, gananciaActualDeLaImpr+servimp.ganancia());
                         }
                     }
-                    double gananciaActualDeLaImpr = ganaciasServiciosRegistrados.get(impresora);
-                    ganaciasServiciosRegistrados.replace(impresora, gananciaActualDeLaImpr+servimp.ganancia());
-
-
-                    if(servimp.ganancia() > ganaciaMax){
-                        ganaciaMax = servimp.ganancia();
-                        servicioConMayorGanacias = servimp;
-                    }
-
-                    if(menorGanaciaDeImpresora == 0.0 || menorGanaciaDeImpresora > servimp.ganancia()) {
-                        menorGanaciaDeImpresora = servimp.ganancia();
-                        servConMenorGanacia = servimp;
-                    }
                 }
 
-                if(servConMenorGanacia == servicioConMayorGanacias || servicioConMayorGanacias == null){
-                    servConMenorGanacia = null;
-                    menorGanaciaDeImpresora = 0.0;
+                ArrayList<Operador> listaOperadores = local.getOperadores();
+                HashSet<Operador> setOperadores = new HashSet<>(listaOperadores);
+
+                for(Operador operador : setOperadores) {
+                    ganaciasOperadoresRegistrados.put(operador.getNombre(), 0.0);
                 }
 
 
-                //todo agregar ganancias de los operadores y estos al mapa, y cambiar la logica para obtener
-                //el servicio con mayor ganancia de este mapa
                 for (Operador serOperador : local.getOperadores()) {
                     totalCostos += serOperador.valorCostos();
                     totalIngresos += serOperador.getTotalIngreso();
                     ganacias += serOperador.ganancia();
-                    if (serOperador.ganancia() > ganaciaMax) {
-                        ganaciaMax = serOperador.ganancia();
-                        servicioConMayorGanacias = serOperador;
+
+                    for(Operador op: setOperadores){
+                        if(op.getNombre().equals(serOperador.getNombre())){
+                            String operador = op.getNombre();
+                            double gananciaActualDelOp = ganaciasOperadoresRegistrados.get(operador);
+                            ganaciasOperadoresRegistrados.replace(operador, gananciaActualDelOp + serOperador.ganancia());
+                        }
                     }
                 }
+                System.out.println(ganaciasImpresorasRegistradas);
+
+
+                for(String imp : ganaciasImpresorasRegistradas.keySet()){
+                    double gananciaLeida = ganaciasImpresorasRegistradas.get(imp);
+                    if((ganaciaMax == .0 && gananciaLeida != .0) || ganaciaMax < gananciaLeida){
+                        ganaciaMax = gananciaLeida;
+                        servicioConMayorGanacias = imp;
+                    }
+
+                    if((menorGanaciaDeImpresora == .0 && gananciaLeida != .0) || gananciaLeida < menorGanaciaDeImpresora){
+                        menorGanaciaDeImpresora = gananciaLeida;
+                        servImprConMenorGanacia = imp;
+                    }
+
+                }
+
+                for(String op : ganaciasOperadoresRegistrados.keySet()){
+                    double gananciaLeida = ganaciasOperadoresRegistrados.get(op);
+                    if((ganaciaMax == .0 && gananciaLeida != .0) || ganaciaMax < gananciaLeida){
+                        ganaciaMax = gananciaLeida;
+                        servicioConMayorGanacias = op;
+                    }
+                }
+
+
 
                 totalCostos += local.getCostoEmpleadoDia() + local.getCostoEnergiaDia();
 
@@ -114,20 +135,15 @@ public class CierreDia implements AccessPanel {
                 txtReadOnly_gananciaObtenida.setText("$" + ganacias);
                 txtReadOnly_gastosProduccion.setText("$" + totalCostos);
                 txtReadOnly_servicioConMayorGanancia.setText(
-                        ((servicioConMayorGanacias == null) ? "Ningún servicio facturado"
+                        ((servicioConMayorGanacias.isBlank()) ? "Ningún servicio facturado"
                                 : servicioConMayorGanacias + " con $" + ganaciaMax));
                 txtReadOnly_impresoraConmenorGanacia.setText(
-                        ((servConMenorGanacia == null) ? "Falta facturar impresoras"
-                                : servConMenorGanacia + " con $" + menorGanaciaDeImpresora));
+                        ((servImprConMenorGanacia.isBlank()) ? "Falta facturar impresoras"
+                                : servImprConMenorGanacia + " con $" + menorGanaciaDeImpresora));
                 txtReadOnly_impresoraMayorConsumoTinta.setText(
                         ((consumoTintaMayor > 0.0)
                                 ? impresoraConMayorConsumoTinta + " %" + consumoTintaMayor
                                 : "No hay consumo de tinta"));
-
-                //toString es uno de los métodos declarados en la clase Object, por ello cualquier objeto de cualquier clase tiene acceso
-                //a este, y gracias al polimorfismo en tiempo de ejecución, el resultado retornado será el declarado dentro de la clase
-                //a la cual pertenece el objeto del que se ha guardado la referencia en la variable servicioConMayorGanacias.
-
             }
         });
 

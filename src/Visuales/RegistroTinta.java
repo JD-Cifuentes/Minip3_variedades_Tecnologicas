@@ -97,7 +97,7 @@ public class RegistroTinta implements AccessPanel {
                     tipoImpresion = esColor ? "Fotocopia-Color" : "Fotocopia-BN";
 
                     //validar disponibilidad de tinta
-                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.FOTOCOPIA, cantidad, esColor)) {
                         //calcular el valor de la venta dependiendo tipo impresion y mostrar
                         for(ServicioImpresora servImp : local.getServicioImpresora()) {
                             if (servImp.getTipo().contains(tipoImpresion)) {
@@ -137,7 +137,7 @@ public class RegistroTinta implements AccessPanel {
                     //establecida, a su vez para generar popups con mensajes diferentes
 
                     //validar disponibilidad de tinta dependiendo si es color o BN
-                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor)) {
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.FOTOCOPIA, cantidad, esColor)) {
                         valorPagado = Integer.parseInt(textF_valorAPagar.getText().trim());
                         boolean confirmacionPago = local.registrarVentaServImpresion(
                                 indiceTintaseleccionado, cantidad, valorPagado);
@@ -154,7 +154,7 @@ public class RegistroTinta implements AccessPanel {
                                             "Valor pagado: $" + valorPagado,
                                     "Venta registrada",
                                     JOptionPane.INFORMATION_MESSAGE);
-                            ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA, cantidad, esColor);
+                            ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.FOTOCOPIA, cantidad, esColor);
                             reestablecerCampos();
                         } else {
                             JOptionPane.showMessageDialog(null,
@@ -180,7 +180,7 @@ public class RegistroTinta implements AccessPanel {
     }
 
     private void mostrarNivelesTinta() {
-        String[][] nivelesTinta = ManejoTintas.verTinta(ManejoTintas.tipoImpresoraEnBDTxt.TINTA);
+        String[][] nivelesTinta = ManejoTintas.verTinta(ManejoTintas.tipoImpresoraEnBDTxt.FOTOCOPIA);
         for( JLabel lblTinta : mapeoTintas.keySet() ) {
             for (int i = 0; i < nivelesTinta.length; i++) {
                 if(nivelesTinta[i][0].equals(lblTinta.getText().toLowerCase())) {
