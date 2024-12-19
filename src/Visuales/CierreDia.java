@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class CierreDia implements AccessPanel {
     private JPanel CierreDia_BG;
@@ -44,11 +46,38 @@ public class CierreDia implements AccessPanel {
                 double totalIngresos = 0.0;
                 double totalCostos = 0.0;
                 double ganacias = 0.0;
+                String[][] totalesConsumoDeTintas = ManejoTintas.totalesConsumoTintas();
+                String impresoraConMayorConsumoTinta = "";
+                double consumoTintaMayor = 0.0;
+
+                HashMap<String, Double> ganaciasServiciosRegistrados = new HashMap<>();
+
+                for(String[] impresorasRegistradas : totalesConsumoDeTintas){
+                    if(!ganaciasServiciosRegistrados.containsKey(impresorasRegistradas[0])){
+                        ganaciasServiciosRegistrados.put(impresorasRegistradas[0], 0.0);
+                    }
+                }
+
+                for(String[] totalTinta : totalesConsumoDeTintas){
+                    if(Double.parseDouble(totalTinta[1]) > consumoTintaMayor){
+                        consumoTintaMayor = Double.parseDouble(totalTinta[1]);
+                        impresoraConMayorConsumoTinta = totalTinta[0];
+                    }
+                }
 
                 for (ServicioImpresora servimp : local.getServicioImpresora()) {
                     totalCostos += servimp.valorCostos();
                     totalIngresos += servimp.getTotalIngresos();
                     ganacias += servimp.ganancia();
+                    String impresora = "";
+                    for(String[] imprReg : totalesConsumoDeTintas){
+                        if(servimp.getTipo().contains(imprReg[0])){
+                            impresora = imprReg[0];
+                        }
+                    }
+                    double gananciaActualDeLaImpr = ganaciasServiciosRegistrados.get(impresora);
+                    ganaciasServiciosRegistrados.replace(impresora, gananciaActualDeLaImpr+servimp.ganancia());
+
 
                     if(servimp.ganancia() > ganaciaMax){
                         ganaciaMax = servimp.ganancia();
@@ -60,11 +89,15 @@ public class CierreDia implements AccessPanel {
                         servConMenorGanacia = servimp;
                     }
                 }
+
                 if(servConMenorGanacia == servicioConMayorGanacias || servicioConMayorGanacias == null){
                     servConMenorGanacia = null;
                     menorGanaciaDeImpresora = 0.0;
                 }
 
+
+                //todo agregar ganancias de los operadores y estos al mapa, y cambiar la logica para obtener
+                //el servicio con mayor ganancia de este mapa
                 for (Operador serOperador : local.getOperadores()) {
                     totalCostos += serOperador.valorCostos();
                     totalIngresos += serOperador.getTotalIngreso();
@@ -72,16 +105,6 @@ public class CierreDia implements AccessPanel {
                     if (serOperador.ganancia() > ganaciaMax) {
                         ganaciaMax = serOperador.ganancia();
                         servicioConMayorGanacias = serOperador;
-                    }
-                }
-
-                String[][] totalesConsumoDeTintas = ManejoTintas.totalesConsumoTintas();
-                String impresoraConMayorConsumoTinta = "";
-                double consumoTintaMayor = 0.0;
-                for(String[] totalTinta : totalesConsumoDeTintas){
-                    if(Double.parseDouble(totalTinta[1]) > consumoTintaMayor){
-                        consumoTintaMayor = Double.parseDouble(totalTinta[1]);
-                        impresoraConMayorConsumoTinta = totalTinta[0];
                     }
                 }
 
