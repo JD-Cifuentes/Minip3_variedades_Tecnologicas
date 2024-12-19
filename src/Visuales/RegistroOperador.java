@@ -51,26 +51,6 @@ public class RegistroOperador implements AccessPanel {
             cBox_Servicio.addItem(tipoServicio.toString());
         }
 
-        cBox_Operador.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String opcionOperador = cBox_Operador.getSelectedItem().toString();
-                System.out.println("Escogiste el Operador " + opcionOperador);
-                String opcionTipoServ = cBox_Servicio.getSelectedItem().toString();
-                System.out.println("Escogiste el Tipo Servicio " + opcionTipoServ);
-            }
-        });
-
-        cBox_Servicio.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String opcionOperador = cBox_Operador.getSelectedItem().toString();
-                System.out.println("Escogiste el Operador " + opcionOperador);
-                String opcionTipoServ = cBox_Servicio.getSelectedItem().toString();
-                System.out.println("Escogiste el Tipo Servicio " + opcionTipoServ);
-            }
-        });
-
         btn_calcularVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

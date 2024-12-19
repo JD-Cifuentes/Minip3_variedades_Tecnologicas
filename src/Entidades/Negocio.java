@@ -83,7 +83,7 @@ public class Negocio {
     public int searchIndex(String operador, String tipo){
         int contador = 0, indexOperador = 0;
         for(Operador op : this.operadores){
-            if(op.getNombre() == operador && op.getTipoServ().toString() == tipo){
+            if(op.getNombre().equals(operador) && op.getTipoServ().toString().equals(tipo)){
                 indexOperador = contador;
             }
             contador++;

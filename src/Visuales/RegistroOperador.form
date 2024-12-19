@@ -59,6 +59,7 @@
         </constraints>
         <properties>
           <model/>
+          <opaque value="true"/>
         </properties>
       </component>
       <component id="14b95" class="javax.swing.JComboBox" binding="cBox_Servicio">
@@ -67,15 +68,21 @@
         </constraints>
         <properties>
           <model/>
+          <opaque value="true"/>
         </properties>
       </component>
       <component id="18a6d" class="javax.swing.JTextField" binding="textF_valorVenta">
         <constraints>
-          <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <foreground color="-131077"/>
+          <horizontalAlignment value="0"/>
+          <opaque value="false"/>
+        </properties>
       </component>
       <component id="398ba" class="javax.swing.JButton" binding="btn_calcularVenta">
         <constraints>
@@ -94,30 +101,35 @@
       </component>
       <component id="4fe09" class="javax.swing.JLabel" binding="lbl_valorPagado">
         <constraints>
-          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font size="16" style="1"/>
           <foreground color="-27"/>
-          <text value="Valor Pagado"/>
+          <text value="Valor Pagado: "/>
         </properties>
       </component>
       <component id="6a9e8" class="javax.swing.JTextField" binding="textF_valorPagado">
         <constraints>
-          <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="9" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <foreground color="-131077"/>
+          <horizontalAlignment value="0"/>
+          <opaque value="false"/>
+        </properties>
       </component>
       <component id="ca5f2" class="javax.swing.JButton" binding="bttn_registrar">
         <constraints>
-          <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="11" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <maximum-size width="140" height="-1"/>
           </grid>
         </constraints>
         <properties>
           <background color="-12357778"/>
+          <borderPainted value="false"/>
           <font size="12" style="1"/>
           <foreground color="-1"/>
           <text value="Registrar"/>
@@ -150,12 +162,18 @@
       </vspacer>
       <hspacer id="df4a8">
         <constraints>
-          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="-1"/>
+            <maximum-size width="20" height="-1"/>
+          </grid>
         </constraints>
       </hspacer>
       <hspacer id="3c74b">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="-1"/>
+            <maximum-size width="20" height="-1"/>
+          </grid>
         </constraints>
       </hspacer>
       <vspacer id="345fa">
@@ -165,14 +183,22 @@
       </vspacer>
       <component id="16c19" class="javax.swing.JTextField" binding="textF_cantidad">
         <constraints>
-          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
         <properties>
+          <foreground color="-131077"/>
+          <horizontalAlignment value="0"/>
+          <opaque value="false"/>
           <text value=""/>
         </properties>
       </component>
+      <hspacer id="e7e21">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
     </children>
   </grid>
 </form>
