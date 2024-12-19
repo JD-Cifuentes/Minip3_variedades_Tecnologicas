@@ -20,12 +20,10 @@ public class RegistroLaser implements AccessPanel {
     private JLabel lbl_amarillo;
     private JLabel lbl_magenta;
     private JLabel lbl_negro;
-    private JLabel lbl_total;
     private JTextField txtReadOnly_cian;
     private JTextField txtReadOnly_amarillo;
     private JTextField txtReadOnly_magenta;
     private JTextField txtReadOnly_negro;
-    private JTextField txtReadOnly_total;
     private JButton bttn_registrar;
     private JButton bttn_volver;
     private JTextField textF_cantidad;

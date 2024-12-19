@@ -1,6 +1,7 @@
 package Visuales;
 
 import Entidades.Negocio;
+import Entidades.Operador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,14 +22,20 @@ public class MenuPrincipal extends JFrame {
     private JButton bttn_salir;
     private JPanel Jpanel_contenido;
 
-    //componentes dependientes
-    private final ContenedorSubMenuImp subImpre; //submenu impresiones
-    private final CierreDia cierreDia; //submenu cierre
+
+    private final ContenedorSubMenuImp subImpre;
+    private final RegistroOperador registroOperador;
+    private final CierreDia cierreDia;
+    private final PanelBienvenida panelBienvenida;
 
     //constructor que inicializa los submenus con objeto Negocio
     public MenuPrincipal(Negocio local) {
         subImpre = new ContenedorSubMenuImp(local);
         cierreDia = new CierreDia(local);
+        registroOperador = new RegistroOperador(local);
+        panelBienvenida = new PanelBienvenida();
+
+        cambiarContenido(panelBienvenida.getPanel());
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override
@@ -46,6 +53,7 @@ public class MenuPrincipal extends JFrame {
             }
         });
 
+
         bttn_salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,6 +61,12 @@ public class MenuPrincipal extends JFrame {
                 if(option == JOptionPane.YES_OPTION){
                     System.exit(0);
                 }
+            }
+        });
+        bttn_operador.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarContenido(registroOperador.getPanel());
             }
         });
     }
