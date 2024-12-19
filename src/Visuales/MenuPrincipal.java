@@ -24,12 +24,16 @@ public class MenuPrincipal extends JFrame {
     private final ContenedorSubMenuImp subImpre;
     private final RegistroOperador registroOperador;
     private final CierreDia cierreDia;
+    private final PanelBienvenida panelBienvenida;
 
 
     public MenuPrincipal(Negocio local) {
         subImpre = new ContenedorSubMenuImp(local);
         cierreDia = new CierreDia(local);
         registroOperador = new RegistroOperador(local);
+        panelBienvenida = new PanelBienvenida();
+
+        cambiarContenido(panelBienvenida.getPanel());
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override
