@@ -83,6 +83,9 @@ public class RegistroOperador implements AccessPanel {
                 if(cantidad>0 && bandera){
                     if(local.registrarVentaOperador(idOperador, cantidad, valorPagado)) {
                         JOptionPane.showMessageDialog(null, "Venta Operador registrado correctamente");
+                        textF_cantidad.setText("0");
+                        textF_valorPagado.setText("0");
+                        textF_valorVenta.setText("");
                     }
                     else{
                         JOptionPane.showMessageDialog(null, "Registro Incorrecto");
