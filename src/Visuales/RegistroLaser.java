@@ -1,6 +1,7 @@
 package Visuales;
 
 import Entidades.Negocio;
+import Entidades.ServicioImpresora;
 import Utils.*;
 
 import javax.swing.*;
@@ -33,6 +34,14 @@ public class RegistroLaser implements AccessPanel {
     private JTextField txtReadOnly_venta;
     private JButton bttn_venta;
 
+    private boolean esColor = false;
+    private String tipoImpresion = "";
+    private int cantidad = 0;
+    private int valorPagado = 0;
+    private int costoUnidad = 0;
+    private int valorVenta = 0;
+    private int indiceLaserseleccionado;
+
     private final HashMap<JLabel, JTextField> mapeoTintas = new HashMap<>(){{
         put(lbl_cian, txtReadOnly_cian);
         put(lbl_amarillo, txtReadOnly_amarillo);
@@ -51,9 +60,7 @@ public class RegistroLaser implements AccessPanel {
             public void actionPerformed(ActionEvent e) {
                 radBttn_color.setSelected(true);
                 radBttn_BN.setSelected(false);
-
                 mostrarNivelesTinta();
-
             }
         });
 
@@ -62,7 +69,6 @@ public class RegistroLaser implements AccessPanel {
             public void actionPerformed(ActionEvent e) {
                 radBttn_color.setSelected(false);
                 radBttn_BN.setSelected(true);
-
                 mostrarNivelesTinta();
             }
         });
@@ -70,19 +76,96 @@ public class RegistroLaser implements AccessPanel {
         bttn_volver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                contenedor
-                        .cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.SUB_MENU_IMPR);
+                reestablecerCampos();
+                contenedor.cambiarVisibilidadContenido(ContenedorSubMenuImp.OpcionesMenuImpresora.SUB_MENU_IMPR);
+            }
+        });
+
+        bttn_venta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //validar ingreso de datos
+                if((radBttn_color.isSelected() || radBttn_BN.isSelected())
+                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                ){
+                    //determinar tipo impresion y obtener costo
+                    cantidad = Integer.parseInt(textF_cantidad.getText().trim());
+                    esColor = radBttn_color.isSelected();
+                    tipoImpresion = esColor ? "Laser-Color" : "Laser-BN";
+
+                    //validar disponibilidad de tinta
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.LASER, cantidad, esColor)) {
+                        //calcular el valor de la venta dependiendo tipo impresion y mostrar
+                        for(ServicioImpresora servImp : local.getServicioImpresora()){
+                            if(servImp.getTipo().contains(tipoImpresion)){
+                                costoUnidad = (int) servImp.getValorParaVenta();
+                                valorVenta = costoUnidad * cantidad;
+                                txtReadOnly_venta.setText(String.valueOf(valorVenta));
+                                indiceLaserseleccionado = local.getServicioImpresora().indexOf(servImp);
+                                break;
+                            }
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null,
+                                "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
+                                "Tinta insuficiente",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,
+                            "Verifica que todos los campos esten completos",
+                            "Faltan valores",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
 
         bttn_registrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //validar ingreso de datos
+                if ((radBttn_color.isSelected() || radBttn_BN.isSelected())
+                        && !(textF_cantidad.getText().isEmpty() || textF_cantidad.getText().equals("0"))
+                        && !(textF_valorAPagar.getText().isEmpty() || textF_valorAPagar.getText().equals("0"))
+                        && !(txtReadOnly_venta.getText().isEmpty()) //validar que se haya calculado la venta
+                ) {
+                    //validar disponibilidad de tinta dependiendo si es color o BN
+                    if (ManejoTintas.validarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.LASER, cantidad, esColor)) {
+                        valorPagado = Integer.parseInt(textF_valorAPagar.getText().trim());
+                        boolean confirmationPago = local.registrarVentaServImpresion(
+                                indiceLaserseleccionado, cantidad, valorPagado);
 
-
+                        if (confirmationPago) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Registro exitoso Fotocopia Laser\n" +
+                                            "Tipo de impresión: " + (esColor ? "Color" : "Blanco y Negro") + "\n" +
+                                            "Cantidad: " + cantidad + "\n" +
+                                            "Valor pagado: $" + valorPagado,
+                                    "Venta registrada",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            ManejoTintas.mermarNivelTinta(ManejoTintas.tipoImpresoraEnBDTxt.LASER, cantidad, esColor);
+                            reestablecerCampos();
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Verifica que el valor a pagar sea correcto",
+                                    "Falla al registrar la venta",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null,
+                                "LLama al técnico para recargar tintas o prueba con una menor cantidad de insumos",
+                                "Tinta insuficiente",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,
+                            "Verifica que todos los campos esten completos\n" +
+                                    "Calcule el valor de la venta para asegurar el registro",
+                            "Faltan valores",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
-
     }
 
     private void mostrarNivelesTinta() {
@@ -96,10 +179,20 @@ public class RegistroLaser implements AccessPanel {
         }
     }
 
+    private void reestablecerCampos(){
+        textF_cantidad.setText("");
+        textF_valorAPagar.setText("");
+        radBttn_color.setSelected(false);
+        radBttn_BN.setSelected(false);
+        txtReadOnly_venta.setText("");
+        txtReadOnly_cian.setText("");
+        txtReadOnly_amarillo.setText("");
+        txtReadOnly_magenta.setText("");
+        txtReadOnly_negro.setText("");
+    }
+
     @Override
     public JPanel getPanel() {
         return this.Laser_BG;
     }
-
-
 }

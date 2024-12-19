@@ -71,7 +71,7 @@ public class Main {
 
                     System.out.println("\nValor venta por " + operadores.get(valorOpcion).getTipoServ().toString().toLowerCase()
                             + " " + operadores.get(valorOpcion).getNombre() + ": "
-                            + operadores.get(valorOpcion).getValorVentaUnidad());
+//                            + operadores.get(valorOpcion).getValorVentaUnidad());
                     System.out.print("Ingrese la cantidad: ");
                     cantidad = getData.nextInt();
                     getData.nextLine(); //limpiar el salto de línea
