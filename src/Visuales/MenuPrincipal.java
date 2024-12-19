@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuPrincipal extends JFrame {
+
+    //componentes del menu
     private JPanel mainBG;
     private JPanel Jpanel_BannerMenuPpl;
     private JLabel lbl_nombreNegocio1;
@@ -19,17 +21,18 @@ public class MenuPrincipal extends JFrame {
     private JButton bttn_salir;
     private JPanel Jpanel_contenido;
 
+    //componentes dependientes
+    private final ContenedorSubMenuImp subImpre; //submenu impresiones
+    private final CierreDia cierreDia; //submenu cierre
 
-    private final ContenedorSubMenuImp subImpre;
-    private final CierreDia cierreDia;
-
-
+    //constructor que inicializa los submenus con objeto Negocio
     public MenuPrincipal(Negocio local) {
         subImpre = new ContenedorSubMenuImp(local);
         cierreDia = new CierreDia(local);
 
         bttn_Impresion.addActionListener(new ActionListener() {
             @Override
+            //muestra el submenu de impresiones
             public void actionPerformed(ActionEvent e) {
                 cambiarContenido(subImpre.getContenedorSubMenuImpre());
             }
@@ -37,11 +40,11 @@ public class MenuPrincipal extends JFrame {
 
         bttn_cierreDia.addActionListener(new ActionListener() {
             @Override
+            //muestra el submenu cierre
             public void actionPerformed(ActionEvent e) {
                 cambiarContenido(cierreDia.getPanel());
             }
         });
-
 
         bttn_salir.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +57,7 @@ public class MenuPrincipal extends JFrame {
         });
     }
 
+    //cambia el contenido del panel principal
     public void cambiarContenido(JPanel panel){
         try{
             panel.setSize(435,400);
@@ -71,6 +75,7 @@ public class MenuPrincipal extends JFrame {
 
     }
 
+    //retorna el fondo principal
     public JPanel getBackgoundMain() {
         return this.mainBG;
     }

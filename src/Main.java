@@ -9,7 +9,9 @@ import javax.swing.plaf.FontUIResource;
 public class Main {
 
     public static void main(String[] args) {
-        Negocio local = new Negocio(20000, 30000);
+        Negocio local = new Negocio(20000, 30000); //instancia de negocio
+
+        //configuracion del estilo visual de swing
         Enumeration<Object> UIkeys = UIManager.getDefaults().keys();
         FontUIResource f = new FontUIResource(new Font("Arial", Font.PLAIN, 14));
         while (UIkeys.hasMoreElements()) {
@@ -18,8 +20,10 @@ public class Main {
             if (value instanceof javax.swing.plaf.FontUIResource)
                 UIManager.put (key, f);
         }
-
+        //crea el menu principal y pasa el objeto de Negocio
         MenuPrincipal pm = new MenuPrincipal(local);
+
+        //configuracion de la ventana principal
         pm.setContentPane(pm.getBackgoundMain());
         pm.setTitle("Variedades tecnológicas");
         pm.pack();

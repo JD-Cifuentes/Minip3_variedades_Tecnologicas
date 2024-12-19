@@ -1,16 +1,16 @@
 tinta
-cian;93.00;0.20
-amarillo;91.00;0.30
-magenta;95.01;0.10
-negro;79.02;0.60
-total consumido;18.00
+cian;91.40;0.20
+amarillo;88.60;0.30
+magenta;94.21;0.10
+negro;65.22;0.60
+total consumido;31.80
 
 laser
-cian;88.00;0.60
-amarillo;88.00;0.30
-magenta;88.00;0.40
-negro;88.00;1.60
-total consumido; 0.00
+cian;86.80;0.60
+amarillo;87.40;0.30
+magenta;87.20;0.40
+negro;44.80;1.60
+total consumido;43.20
 
 plotter
 cian;90.45;0.02
